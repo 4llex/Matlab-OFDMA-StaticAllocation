@@ -9,6 +9,7 @@ Total_bits = zeros(1,length(SNR));          %% Total de bits em um simbolo
 bits_per_rb = zeros(1,length(SNR));         %% qtd media de Bits por RB 
 quantizar = 'yes';                          %%
 RB = 132;                                   %% qtd de RB
+sc_per_rb = 12;                             %% SubCarriers per RB, depends numerology    
 %% SNR gap para constelação M-QAM:
 Gamma=(1/3)*qfuncinv(TargetSer/4)^2; % Gap to channel capacity M-QAM
 
@@ -47,7 +48,7 @@ for i=1:length(SNR)
         H = horzcat(H1(1:528),H2(529:1056),H3(1057:1584));
         
         % Calcula Resposta em frequencia média para os 132 RB's
-        H_rb = rb_h_media(H);
+        H_rb = rb_h_media(H, sc_per_rb);
 
         % Ideal Channel
         b = log2(1 + ((abs(H_rb).^2)* 10^(SNR(i)/10) )/Gamma);

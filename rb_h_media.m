@@ -1,14 +1,20 @@
-function [ Hrb ] = rb_h_media( H )
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
-
-    qtd_RB = 132;
+function [ Hrb ] = rb_h_media( H, SC_per_RB )
+% INPUTS: H -> Frequency Responcy for each subcarrier
+%         X -> Subcarriers per Resource Block
+%
+% OUTPUT: Hrb -> A vector with the Frequency Response's avarages 
+% for 132 Resource Blocks.
+%
+% Calculate the avarage of an X(depends numerology) amount of subcarriers
+% to represents a Resource Block 
+    
+    qtd_RB = 132;     % Number of Resource Blocks
     RB = 1;
     Hrb = zeros(1,qtd_RB);
 
-    for i=1:12:qtd_RB*12
+    for i=1:SC_per_RB:qtd_RB*SC_per_RB
 
-        Hrb(RB) = sum(H(i:RB*12))/12; %abs??
+        Hrb(RB) = sum(H(i:RB*SC_per_RB))/SC_per_RB; %abs??
 
         RB=RB+1;
 

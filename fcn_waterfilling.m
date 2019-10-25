@@ -12,7 +12,7 @@ function [ subPower, subAlloc, subCapacity ] = fcn_waterfilling(Power,SigmaSqr,G
 
 
 
-AllowedSubCarriers=subAlloc;
+%AllowedSubCarriers=subAlloc;
 subPower=ones(size(subAlloc))*-1;
 while(sum(subPower<0))
     subPower(subPower<0)=0;

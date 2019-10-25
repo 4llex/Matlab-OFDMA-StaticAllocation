@@ -3,13 +3,13 @@
 
 TargetSer = 1e-3;                           %% SER Alvo
 SNR = 5:2:30;                               %% XXX
-N = 1584;                                   %% Numero de Subportadoras
+N = 6336;                                   %% Numero de Subportadoras
 b = zeros(1,N);                             %% Vetor de Bits das portadoras / Numerologia 3
 Total_bits = zeros(1,length(SNR));          %% Total de bits em um simbolo
 bits_per_rb = zeros(1,length(SNR));         %% qtd media de Bits por RB 
 quantizar = 'yes';                          %%
 RB = 132;                                   %% qtd de RB
-sc_per_rb = 12;                             %% SubCarriers per RB, depends numerology    
+sc_per_rb = 48;                             %% SubCarriers per RB, depends numerology    
 %% SNR gap para constelação M-QAM:
 Gamma=(1/3)*qfuncinv(TargetSer/4)^2; % Gap to channel capacity M-QAM
 %% Calculo da Potencia Maxima por Usuario
@@ -30,25 +30,20 @@ mask2 = circshift(mask1, 44);
 mask3 = circshift(mask2, 44);
 
 
-%num_itr = 5000;
-num_itr = 1000;
+num_itr = 5000;
 for i=1:length(SNR)
     i
     j=0;
     while j<num_itr 
-        %H = ones(1,N);%% H ideal
         h1 = filter(chan_EVA, impulse)';
-        %H1 = fft(h1,N/3);
         H1 = fft(h1,N);
         %reset(chan_EVA);
         
         h2 = filter(chan_EVA, impulse)';
-        %H2 = fft(h2,N/3);
         H2 = fft(h2,N);
         %reset(chan_EVA);
         
         h3 = filter(chan_EVA, impulse)';
-        %H3 = fft(h3,N/3);
         H3 = fft(h3,N);
         %reset(chan_EVA);
         
@@ -94,7 +89,7 @@ for i=1:length(SNR)
     
     Total_bits(i) = Total_bits(i)/num_itr;
     
-    bits_per_rb(i) = (Total_bits(i)/RB)*12; 
+    bits_per_rb(i) = (Total_bits(i)/RB)*sc_per_rb; 
 end
 
 % Saving Vector in a File

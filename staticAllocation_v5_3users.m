@@ -12,6 +12,7 @@ RB = 132;                                   %% qtd de RB
 sc_per_rb = 12;                             %% SubCarriers per RB, depends numerology    
 %% SNR gap para constelação M-QAM:
 Gamma=(1/3)*qfuncinv(TargetSer/4)^2; % Gap to channel capacity M-QAM
+%% Calculo da Potencia Maxima por Usuario
 
 
 %% 
@@ -25,7 +26,7 @@ chan_EVA = rayleighchan((1/(freq_sample)),0,EVA_SR3072_Delay,EVA_SR3072_PowerdB_
 impulse= [1; zeros(N - 1,1)];  
 
 
-num_itr = 10000;
+num_itr = 5000;
 for i=1:length(SNR)
     j=0;
     while j<num_itr 

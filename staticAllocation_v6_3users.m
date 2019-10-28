@@ -1,18 +1,29 @@
 %%% Simulação de alocação estatica de usuarios em simbolo OFDM
 %%% OFDMA with static allocation
 
+%% Define Numerology
+Numerology = 3;
+
+if (Numerology == 1)
+     N = 6336;
+     sc_per_rb = 48;
+else
+     N = 1584;
+     sc_per_rb = 12;
+end
+
+%%
 TargetSer = 1e-3;                           %% SER Alvo
-SNR = 5:2:30;                               %% XXX
-N = 6336;                                   %% Numero de Subportadoras
+SNR = 5:2:31;                               %% XXX
+%N = 6336;                                   %% Numero de Subportadoras
 b = zeros(1,N);                             %% Vetor de Bits das portadoras / Numerologia 3
 Total_bits = zeros(1,length(SNR));          %% Total de bits em um simbolo
 bits_per_rb = zeros(1,length(SNR));         %% qtd media de Bits por RB 
 quantizar = 'yes';                          %%
 RB = 132;                                   %% qtd de RB
-sc_per_rb = 48;                             %% SubCarriers per RB, depends numerology    
+%sc_per_rb = 48;                            %% SubCarriers per RB, depends numerology    
 %% SNR gap para constelação M-QAM:
 Gamma=(1/3)*qfuncinv(TargetSer/4)^2; % Gap to channel capacity M-QAM
-%% Calculo da Potencia Maxima por Usuario
 
 
 %% 
@@ -30,7 +41,7 @@ mask2 = circshift(mask1, 44);
 mask3 = circshift(mask2, 44);
 
 
-num_itr = 5000;
+num_itr = 1000;
 for i=1:length(SNR)
     i
     j=0;
@@ -92,11 +103,18 @@ for i=1:length(SNR)
     bits_per_rb(i) = (Total_bits(i)/RB)*sc_per_rb; 
 end
 
-% Saving Vector in a File
- Sim.DataSNR = SNR;   
- Sim.DataBPRB = bits_per_rb;
- FileName = strcat('SIM_h2.mat'); 
- save(FileName,'Sim');  
+%% Saving Vector in a File
+if (Numerology == 1)
+     Sim.DataSNR = SNR;   
+     Sim.DataBPRB = bits_per_rb;
+     FileName = strcat('C:\Users\alexrosa\Documents\MATLAB\DynamicAllocation\staticAllocation_num1.mat'); 
+     save(FileName,'Sim');  
+else     
+     Sim.DataSNR = SNR;   
+     Sim.DataBPRB = bits_per_rb;
+     FileName = strcat('C:\Users\alexrosa\Documents\MATLAB\DynamicAllocation\staticAllocation_num3.mat'); 
+     save(FileName,'Sim');
+end    
 
 %% Gera graficos de Bits/SNR
 figure;

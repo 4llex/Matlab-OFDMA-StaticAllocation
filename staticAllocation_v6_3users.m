@@ -7,14 +7,16 @@ Numerology = 3;
 if (Numerology == 1)
      N = 6336;
      sc_per_rb = 48;
+     RE = 720;
 else
      N = 1584;
      sc_per_rb = 12;
+     RE = 720;
 end
 
 %%
 TargetSer = 1e-3;                           %% SER Alvo
-SNR = 5:2:31;                               %% XXX
+SNR = 6:2:30;                               %% XXX
 %N = 6336;                                   %% Numero de Subportadoras
 b = zeros(1,N);                             %% Vetor de Bits das portadoras / Numerologia 3
 Total_bits = zeros(1,length(SNR));          %% Total de bits em um simbolo
@@ -30,7 +32,7 @@ Gamma=(1/3)*qfuncinv(TargetSer/4)^2; % Gap to channel capacity M-QAM
 %subPower = 20/1854; % 20 seria a potencia max do sistema de transmissao
 % LTE EVA CHANNEL
 freq_sample = 23.76e6;     %N*15e3; %30.72e6; sample rate do LTE
-EVA_SR3072_Delay           =[0 30 150 310 370 710 1090 1730 2510].*1e-9;
+EVA_SR3072_Delay           = [0 30 150 310 370 710 1090 1730 2510].*1e-9;
 EVA_SR3072_PowerdB_Gain    = [0 -1.5 -1.4 -3.6 -0.6 -9.1 -7 -12 -16.9]; %  20*log10(0.39)= -8.1787 => -8.1787 dB -> Voltage-ratio = 0.398107
 
 chan_EVA = rayleighchan((1/(freq_sample)),0,EVA_SR3072_Delay,EVA_SR3072_PowerdB_Gain);        
@@ -41,7 +43,7 @@ mask2 = circshift(mask1, 44);
 mask3 = circshift(mask2, 44);
 
 
-num_itr = 1000;
+num_itr = 5000;
 for i=1:length(SNR)
     i
     j=0;
@@ -100,7 +102,7 @@ for i=1:length(SNR)
     
     Total_bits(i) = Total_bits(i)/num_itr;
     
-    bits_per_rb(i) = (Total_bits(i)/RB)*sc_per_rb; 
+    bits_per_rb(i) = (Total_bits(i)/RB)*RE; 
 end
 
 %% Saving Vector in a File

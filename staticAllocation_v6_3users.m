@@ -43,7 +43,7 @@ mask2 = circshift(mask1, 44);
 mask3 = circshift(mask2, 44);
 
 
-num_itr = 5000;
+num_itr = 1000;
 for i=1:length(SNR)
     i
     j=0;
@@ -65,7 +65,7 @@ for i=1:length(SNR)
         H2 = rb_h_media(H2, sc_per_rb);
         H3 = rb_h_media(H3, sc_per_rb);
         SNRLIN = 10^(SNR(i)/10);
-        P  = 132;
+        P  = 20;
         Pu = P/3;
         
         [subPower1,~, subCapacity1 ] = fcn_waterfilling(Pu, P/(SNRLIN*RB), Gamma, H1, mask1);

@@ -16,7 +16,7 @@ end
 
 %%
 TargetSer = 1e-3;                           %% SER Alvo
-SNR = 6:2:30;                               %% XXX
+SNR = 10:2:40;                               %% XXX
 %N = 6336;                                   %% Numero de Subportadoras
 b = zeros(1,N);                             %% Vetor de Bits das portadoras / Numerologia 3
 Total_bits = zeros(1,length(SNR));          %% Total de bits em um simbolo
@@ -43,7 +43,7 @@ mask2 = circshift(mask1, 44);
 mask3 = circshift(mask2, 44);
 
 
-num_itr = 1000;
+num_itr = 5000;
 for i=1:length(SNR)
     i
     j=0;

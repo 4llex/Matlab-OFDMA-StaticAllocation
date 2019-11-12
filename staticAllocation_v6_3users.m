@@ -2,7 +2,7 @@
 %%% OFDMA with static allocation
 
 %% Define Numerology
-Numerology = 3;
+Numerology = 1;
 
 if (Numerology == 1)
      N = 6336;
@@ -16,7 +16,7 @@ end
 
 %%
 TargetSer = 1e-3;                           %% SER Alvo
-SNR = 10:2:40;                               %% XXX
+SNR = 5:2:35;                               %% XXX
 %N = 6336;                                   %% Numero de Subportadoras
 b = zeros(1,N);                             %% Vetor de Bits das portadoras / Numerologia 3
 Total_bits = zeros(1,length(SNR));          %% Total de bits em um simbolo
@@ -43,7 +43,7 @@ mask2 = circshift(mask1, 44);
 mask3 = circshift(mask2, 44);
 
 
-num_itr = 5000;
+num_itr = 1000;
 for i=1:length(SNR)
     i
     j=0;
@@ -76,11 +76,38 @@ for i=1:length(SNR)
 
         % Quantização
         if strcmp(quantizar,'yes')
-            b(b<2) = 0;
-            b((b>2)&(b<4)) = 2;
-            b((b>4)&(b<6)) = 4;
-            b((b>6)&(b<8)) = 6;
-            b(b>8) = 8;
+            b(b<0,083) = 0;
+            b((b>=0.083)&(b<0.167)) = 0.083;
+            b((b>=0.167)&(b<0.250)) = 0.167;
+            b((b>=0.250)&(b<0.333)) = 0.250;
+            b((b>=0.333)&(b<0.417)) = 0.333;
+            b((b>=0.417)&(b<0.583)) = 0.417;
+            b((b>=0.583)&(b<0.750)) = 0.583;
+            b((b>=0.750)&(b<0.833)) = 0.750;
+            b((b>=0.833)&(b<1.000)) = 0.833;
+            b((b>=1.000)&(b<1.166)) = 1.000;
+            b((b>=1.166)&(b<1.500)) = 1.166;
+            b((b>=1.500)&(b<1.833)) = 1.500;
+            b((b>=1.833)&(b<2.167)) = 1.833;
+            b((b>=2.167)&(b<2.500)) = 2.167;
+            b((b>=2.500)&(b<3.000)) = 2.500;
+            b((b>=3.000)&(b<3.333)) = 3.000;
+            b((b>=3.333)&(b<3.500)) = 3.333;
+            b((b>=3.500)&(b<4.000)) = 3.500;
+            b((b>=4.000)&(b<4.500)) = 4.000;
+            b((b>=4.500)&(b<4.750)) = 4.500;
+            b((b>=4.750)&(b<5.250)) = 4.750;
+            b((b>=5.250)&(b<5.500)) = 5.250;
+            if (Numerology == 3)
+                b(b>=5.500) = 5.500;
+            else 
+                b((b>=5.500)&(b<6.000)) = 5.500;
+                b((b>=6.000)&(b<6.667)) = 6.000;
+                b((b>=6.667)&(b<7.000)) = 6.667;
+                b((b>=7.000)&(b<7.333)) = 7.000;
+                b((b>=7.333)&(b<7.667)) = 7.333;
+                b(b>=7.667) = 7.667;    
+            end
         end
 
 %         figure(2);
@@ -119,10 +146,20 @@ else
 end    
 
 %% Gera graficos de Bits/SNR
-figure;
-plot(SNR, bits_per_rb, '-xr');
-title('Alocação Estática em sistema de multiplo acesso Ortogonal');
-xlabel('SNR [dB]'); 
-ylabel('Bits/RB'); 
-grid on;
-grid minor;
+if (Numerology == 1)
+    figure;
+    plot(SNR, bits_per_rb, '-.r*');
+    title('Alocação Estática em sistema de multiplo acesso Ortogonal');
+    xlabel('SNR [dB]'); 
+    ylabel('Bits/RB'); 
+    grid on;
+    grid minor;
+else 
+    figure;
+    plot(SNR, bits_per_rb, ':rs');
+    title('Alocação Estática em sistema de multiplo acesso Ortogonal');
+    xlabel('SNR [dB]'); 
+    ylabel('Bits/RB'); 
+    grid on;
+    grid minor;
+end

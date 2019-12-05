@@ -2,7 +2,7 @@
 %%% OFDMA with static allocation
 
 %% Define Numerology
-Numerology = 1;
+Numerology = 3;
 
 if (Numerology == 1)
      N = 6336;
@@ -43,7 +43,7 @@ mask2 = circshift(mask1, 44);
 mask3 = circshift(mask2, 44);
 
 
-num_itr = 1000;
+num_itr = 3000;
 for i=1:length(SNR)
     i
     j=0;

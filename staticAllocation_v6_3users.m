@@ -127,9 +127,9 @@ for i=1:length(SNR)
         j = j+1;
     end  
     
-    Total_bits(i) = Total_bits(i)/num_itr;
+    Total_bits(i) = Total_bits(i)/num_itr;% Media total do espectro
     
-    bits_per_rb(i) = (Total_bits(i)/RB)*RE; 
+    bits_per_rb(i) = (Total_bits(i)/RB)*RE;% Calcula Media por RB....  e acha Media de bits por RB multiplicando por RE
 end
 
 %% Saving Vector in a File
